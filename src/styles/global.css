@@ -5,9 +5,15 @@
    own .astro files (scoped).
 ----------------------------------------------------------------*/
 
+/* Dark base so iOS safe areas / overscroll never flash white */
+html {
+	background-color: #08060e;
+}
+
 body {
 	margin: 0;
 	min-height: 100dvh;
+	background-color: #08060e;
 	/* American Typewriter where available (Apple), Cutive as web fallback */
 	font-family: "American Typewriter", "Cutive", "Courier New", monospace;
 	color: #f1efe9;
