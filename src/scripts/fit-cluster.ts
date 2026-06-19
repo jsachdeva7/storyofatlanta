@@ -15,8 +15,11 @@ export function initFitClusters() {
 
 	function fit(pocket: HTMLElement) {
 		const onPhone = document.documentElement.dataset.bp === 'phone';
+		const editing = document.body.classList.contains('editing');
 		pocket.style.transformOrigin = '50% 0'; // scale from top-centre
-		if (!onPhone) {
+		// Off on larger screens, and while editing (you arrange the raw cluster;
+		// the live view does the fitting).
+		if (!onPhone || editing) {
 			pocket.style.transform = '';
 			return;
 		}
@@ -34,14 +37,15 @@ export function initFitClusters() {
 		}
 		const contentH = bottom - top;
 		const availH = pocket.clientHeight;
-		if (contentH > availH && contentH > 0) {
-			const k = availH / contentH;
-			// translate so the scaled cluster is vertically centred in the pocket
-			const ty = (availH - contentH * k) / 2 - top * k;
-			pocket.style.transform = `translateY(${ty}px) scale(${k})`;
-		} else {
+		if (contentH <= 0) {
 			pocket.style.transform = '';
+			return;
 		}
+		// Fill: scale the arrangement (up OR down) so it exactly fills the
+		// canvas's vertical space, then translate it to sit flush in that space.
+		const k = availH / contentH;
+		const ty = (availH - contentH * k) / 2 - top * k;
+		pocket.style.transform = `translateY(${ty}px) scale(${k})`;
 	}
 
 	const fitAll = () => pockets.forEach(fit);
@@ -56,6 +60,11 @@ export function initFitClusters() {
 	new MutationObserver(fitAll).observe(document.documentElement, {
 		attributes: true,
 		attributeFilter: ['data-bp'],
+	});
+	// Re-fit when edit mode toggles (we disable fitting while editing).
+	new MutationObserver(fitAll).observe(document.body, {
+		attributes: true,
+		attributeFilter: ['class'],
 	});
 
 	fitAll();

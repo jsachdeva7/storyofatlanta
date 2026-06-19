@@ -5,21 +5,10 @@
    own .astro files (scoped).
 ----------------------------------------------------------------*/
 
-/* Dark base so iOS safe areas / overscroll never flash white */
+/* Paper texture lives on <html> so it paints behind the whole document,
+   including iOS overscroll / safe areas (no white flash). */
 html {
 	background-color: #08060e;
-}
-
-body {
-	margin: 0;
-	min-height: 100dvh;
-	background-color: #08060e;
-	/* American Typewriter where available (Apple), Cutive as web fallback */
-	font-family: "American Typewriter", "Cutive", "Courier New", monospace;
-	color: #f1efe9;
-	font-weight: 500;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 	/* Solid #08060E fill layered over the paper texture */
 	background-image:
 		linear-gradient(rgba(8, 6, 14, 0.95), rgba(8, 6, 14, 0.88)),
@@ -27,6 +16,17 @@ body {
 	background-repeat: no-repeat, no-repeat;
 	background-size: cover, cover;
 	background-attachment: fixed, fixed;
+}
+
+body {
+	margin: 0;
+	min-height: 100dvh;
+	/* American Typewriter where available (Apple), Cutive as web fallback */
+	font-family: "American Typewriter", "Cutive", "Courier New", monospace;
+	color: #f1efe9;
+	font-weight: 500;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /* The stage: the fixed-max-width centered column every step lives in. */

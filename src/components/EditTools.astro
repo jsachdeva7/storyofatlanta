@@ -97,6 +97,7 @@
 		margin-block: 24px;
 	}
 	body.preview-phone .stage {
+		box-sizing: border-box; /* 748px includes padding/border, like a real screen */
 		width: 393px;
 		max-width: 393px;
 		height: 748px;
@@ -107,6 +108,7 @@
 	/* the step normally fills 100dvh — inside the phone frame it must fill
 	   the simulated phone height instead, not the desktop window height */
 	body.preview-phone .step {
+		box-sizing: border-box; /* padding counts toward the 748px, not added on top */
 		min-height: 748px;
 	}
 	body.preview-tablet .stage,

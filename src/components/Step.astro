@@ -40,9 +40,10 @@ const hasFoot = Astro.slots.has('foot');
 		padding: clamp(1.5rem, 4vh, 3.5rem) 2rem;
 		gap: clamp(0.9rem, 2.5vh, 1.75rem);
 	}
-	/* tighter side gutter on phones */
+	/* tighter side gutter + much smaller gap between zones on phones */
 	:global(:root[data-bp='phone']) .step {
-		padding-inline: 20px;
+		padding-inline: 15px;
+		gap: 0.8rem;
 	}
 	/* hero: a single centred stack */
 	.step--center {
