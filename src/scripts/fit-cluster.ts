@@ -17,9 +17,8 @@ export function initFitClusters() {
 		const onPhone = document.documentElement.dataset.bp === 'phone';
 		const editing = document.body.classList.contains('editing');
 		pocket.style.transformOrigin = '50% 0'; // scale from top-centre
-		// Off on larger screens, and while editing (you arrange the raw cluster;
-		// the live view does the fitting).
-		if (!onPhone || editing) {
+		// Off while editing (you arrange the raw cluster; the live view fits it).
+		if (editing) {
 			pocket.style.transform = '';
 			return;
 		}
@@ -41,9 +40,16 @@ export function initFitClusters() {
 			pocket.style.transform = '';
 			return;
 		}
-		// Fill: scale the arrangement (up OR down) so it exactly fills the
-		// canvas's vertical space, then translate it to sit flush in that space.
-		const k = availH / contentH;
+		let k = availH / contentH;
+		// Phone: fill (scale up OR down). Larger screens (incl. laptops):
+		// only shrink to fit a short viewport — if it already fits, leave the
+		// arrangement exactly as authored.
+		if (!onPhone) {
+			if (k >= 1) {
+				pocket.style.transform = '';
+				return;
+			}
+		}
 		const ty = (availH - contentH * k) / 2 - top * k;
 		pocket.style.transform = `translateY(${ty}px) scale(${k})`;
 	}
