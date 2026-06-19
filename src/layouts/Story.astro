@@ -1,11 +1,16 @@
 ---
 import '../styles/global.css';
-import EditTools from '../components/EditTools.astro';
 
 interface Props {
 	title?: string;
 }
 const { title = 'A Story of Atlanta' } = Astro.props;
+
+// Dev-only: dynamically imported so the editing tools (HTML, JS, and CSS)
+// are tree-shaken out of production builds entirely.
+const EditTools = import.meta.env.DEV
+	? (await import('../components/EditTools.astro')).default
+	: null;
 ---
 
 <!doctype html>
@@ -44,8 +49,8 @@ const { title = 'A Story of Atlanta' } = Astro.props;
 			<slot />
 		</main>
 
-		<!-- DEV ONLY: delete this line to ship production -->
-		<EditTools />
+		<!-- Editing tools render only during `astro dev`, never in production builds -->
+		{EditTools && <EditTools />}
 
 		<script>
 			import { initStory } from '../scripts/story';
