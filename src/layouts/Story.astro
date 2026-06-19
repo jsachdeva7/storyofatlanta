@@ -16,6 +16,20 @@ const { title = 'A Story of Atlanta' } = Astro.props;
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<!-- Responsive breakpoint as a data attr (so the dev preview can override it).
+		     Inline + in <head> so it's set before first paint (no layout flash). -->
+		<script is:inline>
+			(function () {
+				var root = document.documentElement;
+				function apply() {
+					if (root.dataset.bpLock) return; // dev preview has taken control
+					var w = window.innerWidth;
+					root.dataset.bp = w <= 640 ? 'phone' : w <= 1024 ? 'tablet' : 'desktop';
+				}
+				apply();
+				window.addEventListener('resize', apply);
+			})();
+		</script>
 		<!-- Cutive: closest Google Fonts match to American Typewriter (web fallback) -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

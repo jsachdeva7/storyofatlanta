@@ -1,16 +1,48 @@
 ---
-/* A positioned element inside a <Canvas> pocket. Position is set via
-   props (percentages relative to the pocket) and edited live in ?edit
-   mode. Put whatever you like inside — an <Image>, text, a cut-out. */
-interface Props {
+/* A positioned element inside a <Canvas> pocket. Positions are emitted as
+   CSS custom properties (data), and the global `.item` rule picks the right
+   set per breakpoint with a fallback chain: phone → tablet → desktop.
+
+   - desktop: left / top / width / rotate  (the defaults)
+   - tablet (≤1024px): pass `tablet={{ left, top, width, rotate }}`
+   - phone  (≤640px):  pass `phone={{  left, top, width, rotate }}`
+
+   Any breakpoint (or any single field) you omit falls back to the next
+   wider one — so you only specify what actually differs on mobile. */
+interface Pos {
 	left?: string;
 	top?: string;
 	width?: string;
 	rotate?: number;
+}
+interface Props extends Pos {
+	tablet?: Pos;
+	phone?: Pos;
 	class?: string;
 }
-const { left = '0%', top = '0%', width = 'auto', rotate = 0, class: className } = Astro.props;
-const style = `left: ${left}; top: ${top}; width: ${width}; transform: rotate(${rotate}deg);`;
+const { left, top, width, rotate, tablet, phone, class: className } = Astro.props;
+
+const vars: string[] = [];
+const set = (name: string, v: string | undefined) => {
+	if (v !== undefined) vars.push(`${name}: ${v}`);
+};
+// desktop
+set('--l', left);
+set('--t', top);
+set('--w', width);
+if (rotate !== undefined) vars.push(`--r: ${rotate}deg`);
+// tablet (≤1024)
+set('--lt', tablet?.left);
+set('--tt', tablet?.top);
+set('--wt', tablet?.width);
+if (tablet?.rotate !== undefined) vars.push(`--rt: ${tablet.rotate}deg`);
+// phone (≤640)
+set('--lp', phone?.left);
+set('--tp', phone?.top);
+set('--wp', phone?.width);
+if (phone?.rotate !== undefined) vars.push(`--rp: ${phone.rotate}deg`);
+
+const style = vars.join('; ');
 ---
 
 <div class:list={['item', className]} data-item style={style}>

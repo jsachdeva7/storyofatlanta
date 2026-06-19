@@ -10,6 +10,11 @@
 <button class="edit-toggle" data-edit-toggle type="button" aria-pressed="false">edit</button>
 
 <aside class="edit-panel" data-panel hidden>
+	<div class="edit-panel__devices">
+		<button type="button" data-device="desktop" class="is-on">desktop</button>
+		<button type="button" data-device="tablet">tablet</button>
+		<button type="button" data-device="phone">phone</button>
+	</div>
 	<div class="edit-panel__readout" data-readout>No item selected</div>
 	<button type="button" data-copy>Copy canvas</button>
 	<p class="edit-panel__hint">Drag to move · corner to resize · knob to rotate</p>
@@ -29,6 +34,30 @@
 		btn.classList.toggle('is-on', on);
 		btn.textContent = on ? 'editing' : 'edit';
 		if (panel) panel.hidden = !on;
+	});
+
+	// Device preview: shrink the stage to a device width AND force the
+	// matching breakpoint, so you can author mobile layouts on a wide screen.
+	const root = document.documentElement;
+	const deviceBtns = Array.from(
+		document.querySelectorAll('[data-device]')
+	) as HTMLButtonElement[];
+
+	deviceBtns.forEach((b) => {
+		b.addEventListener('click', () => {
+			const device = b.dataset.device as 'desktop' | 'tablet' | 'phone';
+			deviceBtns.forEach((x) => x.classList.toggle('is-on', x === b));
+			document.body.classList.remove('preview-tablet', 'preview-phone');
+
+			if (device === 'desktop') {
+				delete root.dataset.bpLock; // hand control back to the window
+				window.dispatchEvent(new Event('resize'));
+			} else {
+				root.dataset.bpLock = '1'; // take control from the window
+				root.dataset.bp = device;
+				document.body.classList.add(`preview-${device}`);
+			}
+		});
 	});
 </script>
 
@@ -56,6 +85,33 @@
 		background: #4da3ff;
 		border-color: #4da3ff;
 		color: #08060e;
+	}
+
+	/* ---- Device preview: constrain the stage to a real device frame ----
+	   iPhone 13/14 Pro / 15 / 16: 393px wide; height 748 (address bar shown)
+	   to 852 (hidden). We preview at the tighter 748 so a layout that fits
+	   here also fits when the bar hides. */
+	body.preview-tablet .stage {
+		width: 740px;
+		max-width: 740px;
+		margin-block: 24px;
+	}
+	body.preview-phone .stage {
+		width: 393px;
+		max-width: 393px;
+		height: 748px;
+		min-height: 748px;
+		margin-block: 24px;
+		overflow-y: auto;
+	}
+	/* the step normally fills 100dvh — inside the phone frame it must fill
+	   the simulated phone height instead, not the desktop window height */
+	body.preview-phone .step {
+		min-height: 748px;
+	}
+	body.preview-tablet .stage,
+	body.preview-phone .stage {
+		outline: 1px solid rgba(255, 255, 255, 0.15);
 	}
 
 	/* ---- Editing affordances (only visible when body.editing) ---- */
@@ -102,6 +158,29 @@
 		border: 2px solid #4da3ff;
 		border-radius: 50%;
 		cursor: grab;
+	}
+
+	/* ---- Device toggle row ---- */
+	.edit-panel__devices {
+		display: flex;
+		gap: 6px;
+		margin-bottom: 10px;
+	}
+	.edit-panel__devices button {
+		flex: 1;
+		font: inherit;
+		cursor: pointer;
+		background: transparent;
+		color: #f1efe9;
+		border: 1px solid rgba(255, 255, 255, 0.25);
+		border-radius: 4px;
+		padding: 5px 6px;
+	}
+	.edit-panel__devices button.is-on {
+		background: #4da3ff;
+		color: #08060e;
+		border-color: #4da3ff;
+		font-weight: 700;
 	}
 
 	/* ---- Readout / copy panel ---- */

@@ -1,8 +1,12 @@
 /* ---------------------------------------------------------------
-   Edit mode: load any page with ?edit to drag / resize / rotate the
-   .item elements inside every <Canvas> pocket on the page. Coordinates
-   are computed relative to each item's own pocket, so they stay
-   portable. "Copy canvas" copies the focused pocket's markup.
+   Edit mode: toggle with the on-screen "edit" button to drag / resize /
+   rotate the .item elements inside every <Canvas> pocket.
+
+   Positions are read from RENDERED GEOMETRY (getComputedStyle), so the
+   tool works no matter how a position was authored — CSS custom-props,
+   a media-query breakpoint, or a live drag. Whatever viewport width the
+   window is at, dragging + "Copy canvas" produce coordinates for THAT
+   breakpoint. Resize the browser to phone/tablet width to author those.
 ----------------------------------------------------------------*/
 
 export function setupEditTools() {
@@ -11,17 +15,32 @@ export function setupEditTools() {
 	const items = Array.from(document.querySelectorAll('[data-item]')) as HTMLElement[];
 
 	const editing = () => document.body.classList.contains('editing');
+	const pocketOf = (el: HTMLElement) => el.closest('[data-canvas]') as HTMLElement | null;
+
+	// Rotation from the computed transform matrix (0 if none).
+	function angleOf(transform: string) {
+		const m = /matrix\(([^)]+)\)/.exec(transform);
+		if (!m) return 0;
+		const [a, b] = m[1].split(',').map(parseFloat);
+		return (Math.atan2(b, a) * 180) / Math.PI;
+	}
+
+	// Current position as % of the item's pocket, from rendered geometry.
+	function geom(item: HTMLElement) {
+		const pocket = pocketOf(item);
+		const pr = pocket?.getBoundingClientRect();
+		const w = pr?.width || 1;
+		const h = pr?.height || 1;
+		const cs = getComputedStyle(item);
+		return {
+			left: ((parseFloat(cs.left) || 0) / w) * 100,
+			top: ((parseFloat(cs.top) || 0) / h) * 100,
+			width: ((parseFloat(cs.width) || 0) / w) * 100,
+			rotate: angleOf(cs.transform),
+		};
+	}
 
 	let selected: HTMLElement | null = null;
-
-	const pct = (v: string) => parseFloat(v) || 0;
-	const rot = (el: HTMLElement) => {
-		const m = /rotate\(([-\d.]+)deg\)/.exec(el.style.transform);
-		return m ? parseFloat(m[1]) : 0;
-	};
-	// The pocket an item belongs to — coordinates are relative to this.
-	const pocketOf = (el: HTMLElement) =>
-		el.closest('[data-canvas]') as HTMLElement | null;
 
 	function update() {
 		if (!readout) return;
@@ -29,11 +48,12 @@ export function setupEditTools() {
 			readout.textContent = 'No item selected';
 			return;
 		}
+		const g = geom(selected);
 		readout.textContent =
-			`left: ${pct(selected.style.left).toFixed(1)}%\n` +
-			`top: ${pct(selected.style.top).toFixed(1)}%\n` +
-			`width: ${pct(selected.style.width).toFixed(1)}%\n` +
-			`rotate: ${rot(selected).toFixed(1)}deg`;
+			`left: ${g.left.toFixed(1)}%\n` +
+			`top: ${g.top.toFixed(1)}%\n` +
+			`width: ${g.width.toFixed(1)}%\n` +
+			`rotate: ${g.rotate.toFixed(1)}deg`;
 	}
 
 	function select(el: HTMLElement | null) {
@@ -60,10 +80,10 @@ export function setupEditTools() {
 			if (!pocket) return;
 			const rect = pocket.getBoundingClientRect();
 			const sx = e.clientX, sy = e.clientY;
-			const sl = pct(item.style.left), st = pct(item.style.top);
+			const start = geom(item);
 			const move = (ev: PointerEvent) => {
-				item.style.left = sl + ((ev.clientX - sx) / rect.width) * 100 + '%';
-				item.style.top = st + ((ev.clientY - sy) / rect.height) * 100 + '%';
+				item.style.left = start.left + ((ev.clientX - sx) / rect.width) * 100 + '%';
+				item.style.top = start.top + ((ev.clientY - sy) / rect.height) * 100 + '%';
 				update();
 			};
 			const up = () => {
@@ -83,7 +103,7 @@ export function setupEditTools() {
 			if (!pocket) return;
 			const rect = pocket.getBoundingClientRect();
 			const sx = e.clientX;
-			const sw = pct(item.style.width);
+			const sw = geom(item).width;
 			const move = (ev: PointerEvent) => {
 				const next = sw + ((ev.clientX - sx) / rect.width) * 100;
 				item.style.width = Math.max(2, next) + '%';
@@ -126,7 +146,8 @@ export function setupEditTools() {
 		});
 	});
 
-	// Copy the focused pocket's markup (all items, positions + content).
+	// Copy the focused pocket's markup, with each item's CURRENT-breakpoint
+	// position written as a clean inline style (read from geometry).
 	copyBtn?.addEventListener('click', () => {
 		const pocket = selected
 			? pocketOf(selected)
@@ -136,16 +157,17 @@ export function setupEditTools() {
 			setTimeout(() => (copyBtn.textContent = 'Copy canvas'), 1200);
 			return;
 		}
+		const liveItems = Array.from(pocket.querySelectorAll('[data-item]')) as HTMLElement[];
 		const clone = pocket.cloneNode(true) as HTMLElement;
 		clone.querySelectorAll('.item__handle').forEach((h) => h.remove());
-		clone.querySelectorAll('.item').forEach((el) => {
+		const cloneItems = Array.from(clone.querySelectorAll('[data-item]')) as HTMLElement[];
+		cloneItems.forEach((el, i) => {
 			el.classList.remove('selected');
-			const t = el as HTMLElement;
-			if (t.style.left) t.style.left = pct(t.style.left).toFixed(1) + '%';
-			if (t.style.top) t.style.top = pct(t.style.top).toFixed(1) + '%';
-			if (t.style.width && t.style.width !== 'auto')
-				t.style.width = pct(t.style.width).toFixed(1) + '%';
-			t.style.transform = `rotate(${rot(t).toFixed(1)}deg)`;
+			const g = geom(liveItems[i]);
+			el.removeAttribute('style');
+			el.style.cssText =
+				`left: ${g.left.toFixed(1)}%; top: ${g.top.toFixed(1)}%; ` +
+				`width: ${g.width.toFixed(1)}%; transform: rotate(${g.rotate.toFixed(1)}deg);`;
 		});
 		const markup = clone.innerHTML
 			.replace(/<!--[\s\S]*?-->/g, '')

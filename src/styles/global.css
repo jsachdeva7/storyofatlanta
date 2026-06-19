@@ -49,6 +49,7 @@ body {
 	text-transform: uppercase;
 	font-size: 1.3rem;
 	opacity: 1;
+	letter-spacing: 0.05em;
 }
 .section-title {
 	margin: 0;
@@ -60,12 +61,54 @@ body {
 	margin: 0;
 	font-size: 1.1rem;
 	opacity: 0.7;
+	letter-spacing: 0.04em;
 }
 
-/* ---- Free-flow item primitive (lives inside a <Canvas> pocket) ---- */
+/* Breakpoints are driven by [data-bp] on <html> (set by the inline script
+   in Story.astro), so the dev device-preview can override them. */
+/* tablet */
+:root[data-bp='tablet'] .kicker {
+	font-size: 1.2rem;
+}
+:root[data-bp='tablet'] .section-title {
+	font-size: 1.35rem;
+}
+:root[data-bp='tablet'] .lede {
+	font-size: 1.05rem;
+}
+/* phone */
+:root[data-bp='phone'] .kicker {
+	font-size: 18px;
+}
+:root[data-bp='phone'] .section-title {
+	font-size: 1.2rem;
+}
+:root[data-bp='phone'] .lede {
+	font-size: 15px;
+}
+
+/* ---- Free-flow item primitive (lives inside a <Canvas> pocket) ----
+   Position comes from custom props set by <Item>. Each breakpoint falls
+   back to the next wider one per-property: phone → tablet → desktop. */
 .item {
 	position: absolute;
 	transform-origin: center center;
+	left: var(--l, 0%);
+	top: var(--t, 0%);
+	width: var(--w, auto);
+	transform: rotate(var(--r, 0deg));
+}
+:root[data-bp='tablet'] .item {
+	left: var(--lt, var(--l, 0%));
+	top: var(--tt, var(--t, 0%));
+	width: var(--wt, var(--w, auto));
+	transform: rotate(var(--rt, var(--r, 0deg)));
+}
+:root[data-bp='phone'] .item {
+	left: var(--lp, var(--lt, var(--l, 0%)));
+	top: var(--tp, var(--tt, var(--t, 0%)));
+	width: var(--wp, var(--wt, var(--w, auto)));
+	transform: rotate(var(--rp, var(--rt, var(--r, 0deg))));
 }
 .item img {
 	display: block;

@@ -32,6 +32,9 @@ const { label = 'continue' } = Astro.props;
 		border: 1px solid rgba(241, 239, 233, 0.85);
 		border-radius: 0;
 	}
+	:global(:root[data-bp='phone']) .cta {
+		font-size: 16.5px;
+	}
 	/* Lucide is a stroke icon — stroke-width controls thickness */
 	.cta svg {
 		width: 1em;
