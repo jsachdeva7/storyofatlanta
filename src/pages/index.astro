@@ -1,17 +1,12 @@
 ---
-
+import Story from '../layouts/Story.astro';
+import Hero from '../components/steps/Hero.astro';
+import BeforeCity from '../components/steps/BeforeCity.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Story title="A Story of Atlanta">
+	<!-- Each .js-slide is one step; the first is active. "continue"
+	     advances to the next. Add a step by dropping a new slide here. -->
+	<div class="js-slide is-active" id="hero"><Hero /></div>
+	<div class="js-slide" id="before-the-city"><BeforeCity /></div>
+</Story>

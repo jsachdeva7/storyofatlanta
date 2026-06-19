@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import Step from '../Step.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import Continue from '../Continue.astro';
+import muskogeeLeader1 from '../../assets/before-the-city/muskogee-leader-1.png';
+import cherokeePeople from '../../assets/before-the-city/cherokee-people.png';
+import muskogeeLeader2 from '../../assets/before-the-city/muskogee-leader-2.png';
+---
+
+<Step align="top">
+	<div class="intro">
+		<p class="kicker">Before the City</p>
+
+		<div class="lede copy">
+			<p>
+				Atlanta is not 190 years old. People lived on this land for
+				thousands of years, most recently the mound builders of the Mississippian
+				world, whose earthworks the city later destroyed.
+			</p>
+			<p>
+				Two peoples held this country: the Muscogee (Creek) to the south, the
+				Cherokee to the north.
+			</p>
+		</div>
+	</div>
+
+	<!-- Free-flow pocket: drag/resize/rotate these with ?edit. -->
+	<Canvas slot="media" fill class="cluster">
+		<Item left="-3.3%" top="-7.7%" width="52.1%">
+			<Image src={muskogeeLeader1} alt="Muscogee (Creek) leader" />
+		</Item>
+		<Item left="53.6%" top="-11.9%" width="43.2%">
+			<Image src={cherokeePeople} alt="Cherokee people" />
+		</Item>
+		<Item left="25.3%" top="13.2%" width="52.7%">
+			<Image src={muskogeeLeader2} alt="Muscogee (Creek) leader" />
+		</Item>
+	</Canvas>
+
+	<Continue slot="foot" />
+</Step>
+
+<style>
+	/* heading stays centred; tighten the gap to the body to match the hero */
+	.intro {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+	/* body copy reads left-aligned */
+	.copy {
+		text-align: left;
+	}
+	/* kill the default <p> margins (they were inflating the gap above);
+	   keep spacing only between paragraphs */
+	.copy p {
+		margin: 0;
+	}
+	.copy p + p {
+		margin-top: 0.9em;
+	}
+</style>

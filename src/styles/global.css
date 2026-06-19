@@ -1,0 +1,79 @@
+/* ---------------------------------------------------------------
+   Global chrome shared by every step: background, base typography,
+   the centered "stage" column, the free-flow .item primitive, and
+   the edit-mode tooling. Component-specific styles live in their
+   own .astro files (scoped).
+----------------------------------------------------------------*/
+
+body {
+	margin: 0;
+	min-height: 100dvh;
+	/* American Typewriter where available (Apple), Cutive as web fallback */
+	font-family: "American Typewriter", "Cutive", "Courier New", monospace;
+	color: #f1efe9;
+	font-weight: 500;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	/* Solid #08060E fill layered over the paper texture */
+	background-image:
+		linear-gradient(rgba(8, 6, 14, 0.95), rgba(8, 6, 14, 0.88)),
+		url('/textures/paper.jpg');
+	background-repeat: no-repeat, no-repeat;
+	background-size: cover, cover;
+	background-attachment: fixed, fixed;
+}
+
+/* The stage: the fixed-max-width centered column every step lives in. */
+.stage {
+	position: relative;
+	max-width: 750px;
+	min-height: 100dvh;
+	margin-inline: auto;
+	/* Edge guides: transparent on the live page, only shown in edit mode */
+	border-left: 0.5px solid transparent;
+	border-right: 0.5px solid transparent;
+	box-sizing: border-box;
+}
+
+/* ---- Story steps: one slide visible at a time ---- */
+.js-slide {
+	display: none;
+}
+.js-slide.is-active {
+	display: block;
+}
+
+/* ---- Shared typography (used across steps) ---- */
+.kicker {
+	margin: 0;
+	text-transform: uppercase;
+	font-size: 1.3rem;
+	opacity: 1;
+}
+.section-title {
+	margin: 0;
+	text-transform: uppercase;
+	font-size: 1.5rem;
+	letter-spacing: 0.04em;
+}
+.lede {
+	margin: 0;
+	font-size: 1.1rem;
+	opacity: 0.7;
+}
+
+/* ---- Free-flow item primitive (lives inside a <Canvas> pocket) ---- */
+.item {
+	position: absolute;
+	transform-origin: center center;
+}
+.item img {
+	display: block;
+	width: 100%;
+	height: auto;
+	-webkit-user-drag: none;
+	user-select: none;
+}
+
+/* NOTE: all edit-mode styles + UI live in the dev-only <EditTools>
+   component. Remove <EditTools /> from Story.astro to ship prod. */

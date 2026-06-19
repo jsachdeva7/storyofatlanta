@@ -1,0 +1,50 @@
+---
+/* A free-flow pocket. Children (<Item>) are absolutely positioned by
+   percentage, relative to THIS box. Three sizing modes:
+
+   default      → full-width; height derived from `ratio` (aspect-locked).
+   fit          → height-bound; width derived from `ratio` (aspect-locked,
+                  centred, fits inside an elastic media zone).
+   fill         → fills the parent box entirely (full width × full height),
+                  NO aspect ratio. Use inside a flex:1 media zone so the
+                  pocket takes whatever vertical space is left.
+
+   Note: in `fill` mode the box shape follows the viewport, so the cluster's
+   spacing/scale flexes — but each <img> keeps its own aspect ratio. */
+interface Props {
+	ratio?: string;
+	fit?: boolean;
+	fill?: boolean;
+	class?: string;
+}
+const { ratio = '1 / 1', fit = false, fill = false, class: className } = Astro.props;
+const style = fill ? undefined : `aspect-ratio: ${ratio};`;
+---
+
+<div
+	class:list={['pocket', fit && 'pocket--fit', fill && 'pocket--fill', className]}
+	data-canvas
+	style={style}
+>
+	<slot />
+</div>
+
+<style>
+	.pocket {
+		position: relative;
+		width: 100%;
+	}
+	/* fit: bound by the parent's height, ratio preserved, centred */
+	.pocket--fit {
+		width: auto;
+		height: 100%;
+		max-width: 100%;
+		max-height: 100%;
+		margin-inline: auto;
+	}
+	/* fill: take the whole parent box (no aspect ratio) */
+	.pocket--fill {
+		width: 100%;
+		height: 100%;
+	}
+</style>

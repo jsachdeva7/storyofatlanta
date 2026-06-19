@@ -1,0 +1,41 @@
+---
+import { Icon } from 'astro-icon/components';
+
+/* The bordered call-to-action with a thin arrow.
+   Advances the story to the next step (see scripts/story.ts). */
+interface Props {
+	label?: string;
+}
+const { label = 'continue' } = Astro.props;
+---
+
+<button class="cta" type="button" data-advance>
+	<span>{label}</span>
+	<Icon name="lucide:arrow-right" />
+</button>
+
+<style>
+	.cta {
+		/* reset the native button chrome (Safari/macOS draws a white fill otherwise) */
+		appearance: none;
+		-webkit-appearance: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5em;
+		color: inherit;
+		font: inherit;
+		font-size: 1.2rem;
+		background: transparent;
+		cursor: pointer;
+		text-decoration: none;
+		padding: 0.3em 0.9em;
+		border: 1px solid rgba(241, 239, 233, 0.85);
+		border-radius: 0;
+	}
+	/* Lucide is a stroke icon — stroke-width controls thickness */
+	.cta svg {
+		width: 1em;
+		height: 1em;
+		stroke-width: 1.5;
+	}
+</style>

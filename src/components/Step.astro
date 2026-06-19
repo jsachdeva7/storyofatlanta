@@ -1,0 +1,73 @@
+---
+/* One step = one self-contained, viewport-height slide.
+   - align="center" → a single centered stack (used by the hero)
+   - align="top"    → text on top, an elastic `media` zone in the
+                      middle that flexes to fill leftover height, and
+                      an optional `foot` (e.g. Continue) below.
+   The whole thing is vertically centred and fits within the viewport;
+   it only scrolls if a genuinely short screen can't contain it. */
+interface Props {
+	align?: 'center' | 'top';
+}
+const { align = 'top' } = Astro.props;
+const hasMedia = Astro.slots.has('media');
+const hasFoot = Astro.slots.has('foot');
+---
+
+<section class:list={['step', `step--${align}`]}>
+	<div class="step__main">
+		<slot />
+	</div>
+	{hasMedia && (
+		<div class="step__media">
+			<slot name="media" />
+		</div>
+	)}
+	{hasFoot && (
+		<div class="step__foot">
+			<slot name="foot" />
+		</div>
+	)}
+</section>
+
+<style>
+	.step {
+		min-height: 100dvh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center; /* centre the whole composition vertically */
+		box-sizing: border-box;
+		padding: clamp(1.5rem, 4vh, 3.5rem) 2rem;
+		gap: clamp(0.9rem, 2.5vh, 1.75rem);
+	}
+	/* hero: a single centred stack */
+	.step--center {
+		align-items: center;
+		text-align: center;
+	}
+	/* content step: text centred horizontally too */
+	.step--top {
+		text-align: center;
+	}
+
+	.step__main {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1rem, 2.5vh, 1.75rem);
+	}
+	.step--center .step__main {
+		align-items: center;
+	}
+
+	/* elastic middle: fills whatever vertical space is left between the
+	   text above and the foot below */
+	.step__media {
+		flex: 1 1 auto;
+		min-height: 0;
+		display: grid;
+	}
+	.step__foot {
+		display: flex;
+		justify-content: center;
+	}
+</style>

@@ -1,0 +1,18 @@
+---
+/* A positioned element inside a <Canvas> pocket. Position is set via
+   props (percentages relative to the pocket) and edited live in ?edit
+   mode. Put whatever you like inside — an <Image>, text, a cut-out. */
+interface Props {
+	left?: string;
+	top?: string;
+	width?: string;
+	rotate?: number;
+	class?: string;
+}
+const { left = '0%', top = '0%', width = 'auto', rotate = 0, class: className } = Astro.props;
+const style = `left: ${left}; top: ${top}; width: ${width}; transform: rotate(${rotate}deg);`;
+---
+
+<div class:list={['item', className]} data-item style={style}>
+	<slot />
+</div>

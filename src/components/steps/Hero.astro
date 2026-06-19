@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+import Step from '../Step.astro';
+import Continue from '../Continue.astro';
+import atlanta from '../../assets/hero/atlanta.png';
+---
+
+<Step align="center">
+	<div class="hero__text">
+		<p class="kicker">A Story of</p>
+		<p class="lede">a city taken, built, burned, and rebuilt again</p>
+	</div>
+	<Image class="hero__atlanta" src={atlanta} alt="Atlanta" />
+	<Continue label="start journey" />
+</Step>
+
+<style>
+	.hero__text {
+		display: flex;
+		flex-direction: column;
+		gap: 0.7rem;
+	}
+	.hero__atlanta {
+		display: block;
+		width: 88%;
+		height: auto;
+	}
+</style>

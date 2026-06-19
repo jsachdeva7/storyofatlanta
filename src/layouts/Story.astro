@@ -1,0 +1,41 @@
+---
+import '../styles/global.css';
+import EditTools from '../components/EditTools.astro';
+
+interface Props {
+	title?: string;
+}
+const { title = 'A Story of Atlanta' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<!-- Cutive: closest Google Fonts match to American Typewriter (web fallback) -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Cutive&display=swap"
+			rel="stylesheet"
+		/>
+		<title>{title}</title>
+	</head>
+	<body>
+		<main class="stage">
+			<slot />
+		</main>
+
+		<!-- DEV ONLY: delete this line to ship production -->
+		<EditTools />
+
+		<script>
+			import { initStory } from '../scripts/story';
+			initStory();
+		</script>
+	</body>
+</html>
