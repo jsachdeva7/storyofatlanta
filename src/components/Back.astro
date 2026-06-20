@@ -1,0 +1,15 @@
+---
+import { Icon } from 'astro-icon/components';
+
+/* The "prev" button — left-facing arrow before the label. Steps the story
+   back one (see scripts/story.ts). Shares .cta styling from global.css. */
+interface Props {
+	label?: string;
+}
+const { label = 'previous' } = Astro.props;
+---
+
+<button class="cta" type="button" data-back>
+	<Icon name="lucide:arrow-left" />
+	<span>{label}</span>
+</button>

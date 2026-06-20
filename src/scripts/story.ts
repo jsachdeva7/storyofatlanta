@@ -26,13 +26,13 @@ export function initStory() {
 	// Initial step comes from the hash (deep link / refresh), else the first.
 	show(indexFromHash());
 
-	// Continue / advance controls.
+	// Prev / next controls. Setting the hash fires `hashchange`, which renders.
 	document.addEventListener('click', (e) => {
-		const trigger = (e.target as HTMLElement).closest('[data-advance]');
-		if (!trigger) return;
-		if (current < slides.length - 1) {
-			// Setting the hash fires `hashchange`, which renders the step.
+		const t = e.target as HTMLElement;
+		if (t.closest('[data-advance]') && current < slides.length - 1) {
 			location.hash = slides[current + 1].id;
+		} else if (t.closest('[data-back]') && current > 0) {
+			location.hash = slides[current - 1].id;
 		}
 	});
 

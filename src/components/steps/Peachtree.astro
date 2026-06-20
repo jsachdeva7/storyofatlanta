@@ -1,0 +1,20 @@
+---
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+// import { Image } from 'astro:assets';
+// import Item from '../Item.astro';
+// cut-out imports go here when assets are ready
+---
+
+<StoryStep title={'"Peachtree"'} mediaFirst>
+	<Canvas slot="media" fill fitScale class="cluster">
+		{/* drop <Item><Image …/></Item> cut-outs here, position with ?edit */}
+	</Canvas>
+
+	<p>Atlanta's future site sat right between these two tribes.</p>
+	<p>
+		On the Muscogee side stood a village called Standing Peachtree—and that's
+		where every Peachtree street in the city gets its name.
+	</p>
+	<p>The most-repeated word in Atlanta belongs to a place the city erased.</p>
+</StoryStep>

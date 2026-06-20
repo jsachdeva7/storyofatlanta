@@ -1,0 +1,86 @@
+---
+import Back from './Back.astro';
+import Continue from './Continue.astro';
+
+/* Standard layout for story steps past the hero:
+   - title (kicker) at the top
+   - an elastic `media` slot (a <Canvas>) that fills the leftover height
+   - body text (default slot)
+   - prev / next buttons pinned at the bottom
+
+   `mediaFirst` puts the canvas above the body text (else text above canvas). */
+interface Props {
+	title: string;
+	mediaFirst?: boolean;
+	prevLabel?: string;
+	nextLabel?: string;
+	showPrev?: boolean;
+}
+const {
+	title,
+	mediaFirst = false,
+	prevLabel = 'previous',
+	nextLabel = 'continue',
+	showPrev = true,
+} = Astro.props;
+const hasBody = Astro.slots.has('default');
+---
+
+<section class="sstep">
+	<p class="kicker">{title}</p>
+
+	{mediaFirst ? (
+		<Fragment>
+			<div class="sstep__media"><slot name="media" /></div>
+			{hasBody && <div class="sstep__body lede"><slot /></div>}
+		</Fragment>
+	) : (
+		<Fragment>
+			{hasBody && <div class="sstep__body lede"><slot /></div>}
+			<div class="sstep__media"><slot name="media" /></div>
+		</Fragment>
+	)}
+
+	<div class="sstep__foot">
+		{showPrev && <Back label={prevLabel} />}
+		<Continue label={nextLabel} />
+	</div>
+</section>
+
+<style>
+	.sstep {
+		/* exactly one window tall (definite height) so the flex:1 canvas can
+		   absorb the leftover space instead of the slide growing past it */
+		height: 100dvh;
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		text-align: center;
+		padding: clamp(1.5rem, 4vh, 3.5rem) 2rem;
+		gap: clamp(0.9rem, 2.5vh, 1.75rem);
+		--foot-gap: 1.6rem;
+	}
+	:global(:root[data-bp='phone']) .sstep {
+		padding-inline: 15px;
+		gap: 0.8rem;
+	}
+	/* elastic canvas zone: fills whatever vertical space is left */
+	.sstep__media {
+		flex: 1 1 auto;
+		min-height: 0;
+		display: grid;
+	}
+	/* body copy reads left-aligned under the centred title */
+	.sstep__body {
+		text-align: left;
+	}
+	.sstep__foot {
+		display: flex;
+		justify-content: center;
+		gap: var(--foot-gap);
+	}
+	/* prev + next share the footer width equally */
+	.sstep__foot :global(.cta) {
+		flex: 1 1 0;
+	}
+</style>

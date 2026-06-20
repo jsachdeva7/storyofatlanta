@@ -70,6 +70,13 @@ body {
 	opacity: 0.7;
 	letter-spacing: 0.04em;
 }
+/* when .lede wraps multiple paragraphs, space them (not before the first) */
+.lede p {
+	margin: 0;
+}
+.lede p + p {
+	margin-top: 0.9em;
+}
 
 /* Breakpoints are driven by [data-bp] on <html> (set by the inline script
    in Story.astro), so the dev device-preview can override them. */
@@ -92,6 +99,44 @@ body {
 }
 :root[data-bp='phone'] .lede {
 	font-size: 15px;
+}
+
+/* ---- Buttons: shared by <Continue> (next) and <Back> (prev) ---- */
+.cta {
+	/* reset native button chrome (Safari/macOS draws a white fill otherwise) */
+	appearance: none;
+	-webkit-appearance: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4em;
+	color: inherit;
+	font: inherit;
+	font-size: 1.2rem;
+	background: transparent;
+	cursor: pointer;
+	text-decoration: none;
+	padding: 0.5em 1.8em;
+	border: 1px solid rgba(241, 239, 233, 0.85);
+	border-radius: 0;
+}
+:root[data-bp='phone'] .cta {
+	font-size: 16.5px;
+}
+/* Lucide is a stroke icon — stroke-width controls thickness */
+.cta svg {
+	width: 1em;
+	height: 1em;
+	stroke-width: 1.5;
+}
+/* prev + next share the footer width equally */
+.step__foot .cta {
+	flex: 1 1 0;
+}
+/* lone hero button: exactly the width of one of a hypothetical prev/next pair
+   = half the row minus half the gap, so it matches buttons on later steps */
+.step--center .cta {
+	width: calc(50% - var(--foot-gap, 1.6rem) / 2);
 }
 
 /* ---- Free-flow item primitive (lives inside a <Canvas> pocket) ----

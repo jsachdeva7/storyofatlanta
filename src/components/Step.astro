@@ -32,13 +32,16 @@ const hasFoot = Astro.slots.has('foot');
 
 <style>
 	.step {
-		min-height: 100dvh;
+		/* exactly one window tall (definite height) so the flex:1 media can
+		   absorb the leftover space instead of the slide growing past it */
+		height: 100dvh;
 		display: flex;
 		flex-direction: column;
 		justify-content: center; /* centre the whole composition vertically */
 		box-sizing: border-box;
 		padding: clamp(1.5rem, 4vh, 3.5rem) 2rem;
 		gap: clamp(0.9rem, 2.5vh, 1.75rem);
+		--foot-gap: 1.6rem; /* gap between prev/next; also sizes the lone hero button */
 	}
 	/* tighter side gutter + much smaller gap between zones on phones */
 	:global(:root[data-bp='phone']) .step {
@@ -74,5 +77,6 @@ const hasFoot = Astro.slots.has('foot');
 	.step__foot {
 		display: flex;
 		justify-content: center;
+		gap: var(--foot-gap);
 	}
 </style>
