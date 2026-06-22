@@ -22,9 +22,11 @@ export function initFitClusters() {
 		const onPhone = document.documentElement.dataset.bp === 'phone';
 		const editing = document.body.classList.contains('editing');
 		const axis = pocket.dataset.fitScale === 'width' ? 'width' : 'height';
+		const phoneOnly = pocket.dataset.fitPhoneOnly !== undefined;
 		pocket.style.transformOrigin = '0 0';
 		// Off while editing (you arrange the raw cluster; the live view fits it).
-		if (editing) {
+		// Off on larger screens when this pocket is phone-only.
+		if (editing || (phoneOnly && !onPhone)) {
 			pocket.style.transform = '';
 			return;
 		}

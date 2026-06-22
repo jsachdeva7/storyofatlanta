@@ -105,11 +105,12 @@
 		margin-block: 24px;
 		overflow-y: auto;
 	}
-	/* the step normally fills 100dvh — inside the phone frame it must fill
+	/* the slide is normally height:100dvh — inside the phone frame it must be
 	   the simulated phone height instead, not the desktop window height */
-	body.preview-phone .step {
+	body.preview-phone .step,
+	body.preview-phone .sstep {
 		box-sizing: border-box; /* padding counts toward the 748px, not added on top */
-		min-height: 748px;
+		height: 748px;
 	}
 	body.preview-tablet .stage,
 	body.preview-phone .stage {
@@ -130,6 +131,9 @@
 	}
 	body.editing .item.selected {
 		outline: 1px solid #4da3ff;
+		/* lift the selected item (and its handles) above other layers so the
+		   resize/rotate draggers are always reachable, even on a lower layer */
+		z-index: 1000;
 	}
 	body.editing .item.selected .item__handle {
 		display: block;
@@ -139,6 +143,7 @@
 		display: none;
 		position: absolute;
 		box-sizing: border-box;
+		z-index: 1001;
 	}
 	.item__handle--resize {
 		width: 14px;
