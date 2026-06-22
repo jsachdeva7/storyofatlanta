@@ -149,9 +149,11 @@ export function setupEditTools() {
 	// Copy the focused pocket's markup, with each item's CURRENT-breakpoint
 	// position written as a clean inline style (read from geometry).
 	copyBtn?.addEventListener('click', () => {
+		// Use the selected item's pocket, else the pocket on the ACTIVE slide
+		// (not the first in the DOM — hidden slides have a 0×0 box).
 		const pocket = selected
 			? pocketOf(selected)
-			: (document.querySelector('[data-canvas]') as HTMLElement | null);
+			: (document.querySelector('.js-slide.is-active [data-canvas]') as HTMLElement | null);
 		if (!pocket) {
 			copyBtn.textContent = 'No pocket';
 			setTimeout(() => (copyBtn.textContent = 'Copy canvas'), 1200);

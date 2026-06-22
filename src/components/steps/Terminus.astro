@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import zeroMilePost from '../../assets/terminus/zeromilepost.png';
+import actualPost from '../../assets/terminus/actualpost.png';
+import earlyAtlanta from '../../assets/terminus/earlyatlanta.png';
+---
+
+<StoryStep title="Terminus" mediaFirst>
+	<!-- Free-flow pocket: drag/resize/rotate these with ?edit. -->
+	<Canvas slot="media" fill fitScale class="cluster">
+		<!-- DOM order = back → front: earlyAtlanta (back), actualPost, zeroMilePost (front) -->
+		<Item
+			left="10.4%"
+			top="1.4%"
+			width="82%"
+			phone={{ left: '-0.5%', top: '6%', width: '102.3%', rotate: -1.1 }}
+		>
+			<Image src={earlyAtlanta} alt="Early Atlanta" />
+		</Item>
+		<Item
+			left="10.5%"
+			top="30.6%"
+			width="14.4%"
+			rotate={-9.2}
+			phone={{ left: '65.3%', top: '7.7%', width: '30.1%', rotate: 7.1 }}
+		>
+			<Image src={actualPost} alt="The actual Zero Mile Post marker" />
+		</Item>
+		<Item
+			left="38.3%"
+			top="25.7%"
+			width="55.4%"
+			rotate={8.2}
+			phone={{ left: '-0.2%', top: '35.8%', width: '72.5%', rotate: -9.1 }}
+		>
+			<Image src={zeroMilePost} alt="The Zero Mile Post" />
+		</Item>
+	</Canvas>
+
+	<div class="copy">
+		<p>
+			On the land just cleared of its people, white settlers set out to 	
+			something new. It had no harbor, no river port, no natural reason to
+			be there—only the spot where a railroad line ended.
+		</p>
+		<p>
+			In 1837, surveyors drove a stake into the ground and called it Terminus, then Marthasville, then Atlanta.
+		</p>
+	</div>
+</StoryStep>
+
+<style>
+	/* breathing room below the body text, before the prev/next bar
+	   (matches the Peachtree slide) */
+	.copy {
+		padding-bottom: 1.5rem;
+	}
+</style>
