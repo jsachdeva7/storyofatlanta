@@ -15,19 +15,20 @@ interface Props {
 	ratio?: string;
 	fit?: boolean;
 	fill?: boolean;
-	/* phone-only: uniformly scale the whole arrangement down to fit the
-	   pocket's vertical limits (see scripts/fit-cluster.ts) */
-	fitScale?: boolean;
+	/* uniformly scale the whole arrangement to fit the pocket (see
+	   scripts/fit-cluster.ts). `true` fits by height; "width" fits by width. */
+	fitScale?: boolean | 'height' | 'width';
 	class?: string;
 }
 const { ratio = '1 / 1', fit = false, fill = false, fitScale = false, class: className } = Astro.props;
 const style = fill ? undefined : `aspect-ratio: ${ratio};`;
+const fitAxis = fitScale === 'width' ? 'width' : fitScale ? 'height' : null;
 ---
 
 <div
 	class:list={['pocket', fit && 'pocket--fit', fill && 'pocket--fill', className]}
 	data-canvas
-	data-fit-scale={fitScale ? '' : undefined}
+	data-fit-scale={fitAxis ?? undefined}
 	style={style}
 >
 	<slot />

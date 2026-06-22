@@ -1,9 +1,14 @@
 /* ---------------------------------------------------------------
-   Phone-only "K-scaling" for canvas pockets marked [data-fit-scale].
-   Measures the arrangement's natural height; if it overflows the
-   pocket's vertical space, applies ONE uniform transform: scale(K) to
-   the whole pocket (positions + sizes scale together, like Figma's
-   scale resize) so the cluster always stays within the vertical limits.
+   "K-scaling" for canvas pockets marked [data-fit-scale]. Applies ONE
+   uniform transform: scale(K) to the whole pocket (positions + sizes
+   scale together, like Figma's scale resize) so the arrangement fits.
+
+   The attribute's value picks the axis to fit:
+     data-fit-scale="height" (default) → fit the cluster to the pocket's
+        vertical space (fill on phone, shrink-to-fit on larger screens).
+     data-fit-scale="width"  → fit the cluster to the pocket's WIDTH
+        instead (e.g. a wide image that should fit by width, not height).
+
    Recomputes on size changes (viewport, image load) and breakpoint changes.
 ----------------------------------------------------------------*/
 
@@ -16,7 +21,8 @@ export function initFitClusters() {
 	function fit(pocket: HTMLElement) {
 		const onPhone = document.documentElement.dataset.bp === 'phone';
 		const editing = document.body.classList.contains('editing');
-		pocket.style.transformOrigin = '50% 0'; // scale from top-centre
+		const axis = pocket.dataset.fitScale === 'width' ? 'width' : 'height';
+		pocket.style.transformOrigin = '0 0';
 		// Off while editing (you arrange the raw cluster; the live view fits it).
 		if (editing) {
 			pocket.style.transform = '';
@@ -27,31 +33,35 @@ export function initFitClusters() {
 			pocket.style.transform = '';
 			return;
 		}
-		// Natural vertical extent of the arrangement (incl. overflow), in px.
-		let top = Infinity;
-		let bottom = -Infinity;
+		// Natural extent of the arrangement (incl. overflow), in px.
+		let left = Infinity, right = -Infinity, top = Infinity, bottom = -Infinity;
 		for (const it of items) {
+			left = Math.min(left, it.offsetLeft);
+			right = Math.max(right, it.offsetLeft + it.offsetWidth);
 			top = Math.min(top, it.offsetTop);
 			bottom = Math.max(bottom, it.offsetTop + it.offsetHeight);
 		}
+		const contentW = right - left;
 		const contentH = bottom - top;
+		const availW = pocket.clientWidth;
 		const availH = pocket.clientHeight;
-		if (contentH <= 0) {
+		const content = axis === 'width' ? contentW : contentH;
+		const avail = axis === 'width' ? availW : availH;
+		if (content <= 0) {
 			pocket.style.transform = '';
 			return;
 		}
-		let k = availH / contentH;
+		let k = avail / content;
 		// Phone: fill (scale up OR down). Larger screens (incl. laptops):
-		// only shrink to fit a short viewport — if it already fits, leave the
-		// arrangement exactly as authored.
-		if (!onPhone) {
-			if (k >= 1) {
-				pocket.style.transform = '';
-				return;
-			}
+		// only shrink to fit — if it already fits, leave it exactly as authored.
+		if (!onPhone && k >= 1) {
+			pocket.style.transform = '';
+			return;
 		}
+		// Centre the scaled cluster in the pocket on both axes.
+		const tx = (availW - contentW * k) / 2 - left * k;
 		const ty = (availH - contentH * k) / 2 - top * k;
-		pocket.style.transform = `translateY(${ty}px) scale(${k})`;
+		pocket.style.transform = `translate(${tx}px, ${ty}px) scale(${k})`;
 	}
 
 	const fitAll = () => pockets.forEach(fit);

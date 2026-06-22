@@ -7,7 +7,7 @@ import peachtree from '../../assets/peachtree/peachtree.png';
 ---
 
 <StoryStep title={'"Peachtree"'} mediaFirst>
-	<Canvas slot="media" fill fitScale class="cluster">
+	<Canvas slot="media" fill fitScale="width" class="cluster">
 		<Item left="0%" top="0%" width="100%">
 			<Image src={peachtree} alt="Standing Peachtree" />
 		</Item>
@@ -24,6 +24,12 @@ import peachtree from '../../assets/peachtree/peachtree.png';
 </StoryStep>
 
 <style>
+	/* shrink the canvas a little and centre it in its zone, so there's
+	   breathing room above it and between it and the body text */
+	.cluster {
+		height: 86%;
+		align-self: center;
+	}
 	/* extra breathing room below the body text, before the prev/next bar */
 	.copy {
 		padding-bottom: 1.5rem;
