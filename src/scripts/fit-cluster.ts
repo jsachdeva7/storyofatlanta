@@ -40,6 +40,7 @@ export function initFitClusters() {
 		// Natural extent of the arrangement (incl. overflow), in px.
 		let left = Infinity, right = -Infinity, top = Infinity, bottom = -Infinity;
 		for (const it of items) {
+			if (!it.offsetParent) continue; // skip hidden items (e.g. .hide-phone)
 			left = Math.min(left, it.offsetLeft);
 			right = Math.max(right, it.offsetLeft + it.offsetWidth);
 			top = Math.min(top, it.offsetTop);

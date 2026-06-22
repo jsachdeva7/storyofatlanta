@@ -139,6 +139,15 @@ body {
 	width: calc(50% - var(--foot-gap, 1.6rem) / 2);
 }
 
+/* hide a cut-out on phones only */
+:root[data-bp='phone'] .item.hide-phone {
+	display: none;
+}
+/* lift a cut-out above its siblings on phones only */
+:root[data-bp='phone'] .item.raise-phone {
+	z-index: 1;
+}
+
 /* ---- Free-flow item primitive (lives inside a <Canvas> pocket) ----
    Position comes from custom props set by <Item>. Each breakpoint falls
    back to the next wider one per-property: phone → tablet → desktop. */
