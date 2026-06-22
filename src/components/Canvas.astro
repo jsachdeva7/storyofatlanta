@@ -18,11 +18,14 @@ interface Props {
 	/* uniformly scale the whole arrangement to fit the pocket (see
 	   scripts/fit-cluster.ts). `true` fits by height; "width" fits by width. */
 	fitScale?: boolean | 'height' | 'width';
+	/* axis override used only on phones (e.g. fit by width on phone,
+	   by height everywhere else) */
+	fitScalePhone?: 'height' | 'width';
 	/* only apply the fit on phones (leave larger screens as authored) */
 	fitPhoneOnly?: boolean;
 	class?: string;
 }
-const { ratio = '1 / 1', fit = false, fill = false, fitScale = false, fitPhoneOnly = false, class: className } = Astro.props;
+const { ratio = '1 / 1', fit = false, fill = false, fitScale = false, fitScalePhone, fitPhoneOnly = false, class: className } = Astro.props;
 const style = fill ? undefined : `aspect-ratio: ${ratio};`;
 const fitAxis = fitScale === 'width' ? 'width' : fitScale ? 'height' : null;
 ---
@@ -31,6 +34,7 @@ const fitAxis = fitScale === 'width' ? 'width' : fitScale ? 'height' : null;
 	class:list={['pocket', fit && 'pocket--fit', fill && 'pocket--fill', className]}
 	data-canvas
 	data-fit-scale={fitAxis ?? undefined}
+	data-fit-scale-phone={fitScalePhone ?? undefined}
 	data-fit-phone-only={fitPhoneOnly ? '' : undefined}
 	style={style}
 >

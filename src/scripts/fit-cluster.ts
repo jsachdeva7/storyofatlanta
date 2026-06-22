@@ -14,14 +14,16 @@
 
 export function initFitClusters() {
 	const pockets = Array.from(
-		document.querySelectorAll('[data-fit-scale]')
+		document.querySelectorAll('[data-fit-scale], [data-fit-scale-phone]')
 	) as HTMLElement[];
 	if (!pockets.length) return;
 
 	function fit(pocket: HTMLElement) {
 		const onPhone = document.documentElement.dataset.bp === 'phone';
 		const editing = document.body.classList.contains('editing');
-		const axis = pocket.dataset.fitScale === 'width' ? 'width' : 'height';
+		// Axis can differ on phone (e.g. fit by width on phone, height elsewhere).
+		const axisAttr = (onPhone && pocket.dataset.fitScalePhone) || pocket.dataset.fitScale;
+		const axis = axisAttr === 'width' ? 'width' : 'height';
 		const phoneOnly = pocket.dataset.fitPhoneOnly !== undefined;
 		pocket.style.transformOrigin = '0 0';
 		// Off while editing (you arrange the raw cluster; the live view fits it).
