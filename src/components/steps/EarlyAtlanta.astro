@@ -1,0 +1,52 @@
+---
+import { Image } from 'astro:assets';
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import illustration from '../../assets/early-atlanta/illustration.png';
+import earlyAtlanta1 from '../../assets/early-atlanta/earlyatlanta1.png';
+import still from '../../assets/early-atlanta/still.png';
+---
+
+<StoryStep title="Early Atlanta">
+	<p>
+		In eight years the place renamed itself twice. Terminus became Marthasville
+		in 1843, then Atlanta in 1845, named for the railroad that made it: the
+		Western & Atlantic.
+	</p>
+	<p>
+		Early Atlanta was a muddy railroad boomtown of about
+		2,500 people and forty saloons. The first tavern opened ten years before the
+		first church.
+	</p>
+
+	<!-- Free-flow pocket: drag/resize/rotate these with ?edit. -->
+	<Canvas slot="media" fill fitScale class="cluster">
+		<Item
+			left="2.8%"
+			top="3.5%"
+			width="61.7%"
+			rotate={-3.6}
+			phone={{ left: '1.2%', top: '9.7%', width: '64.5%', rotate: -7.6 }}
+		>
+			<Image src={illustration} alt="Early Atlanta illustration" />
+		</Item>
+		<Item
+			left="15.8%"
+			top="49.2%"
+			width="49.6%"
+			phone={{ left: '13.6%', top: '56.6%', width: '67.2%' }}
+		>
+			<Image src={earlyAtlanta1} alt="Early Atlanta" />
+		</Item>
+		<Item
+			left="60.4%"
+			top="5.7%"
+			width="35%"
+			rotate={4.4}
+			phone={{ left: '50.9%', top: '6.1%', width: '47.2%', rotate: 4.4 }}
+		>
+			<Image src={still} alt="Early Atlanta" />
+		</Item>
+	</Canvas>
+</StoryStep>

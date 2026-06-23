@@ -24,22 +24,21 @@ const {
 	showPrev = true,
 } = Astro.props;
 const hasBody = Astro.slots.has('default');
+const hasMedia = Astro.slots.has('media');
 ---
 
 <section class="sstep">
 	<p class="kicker">{title}</p>
 
-	{mediaFirst ? (
-		<Fragment>
-			<div class="sstep__media"><slot name="media" /></div>
-			{hasBody && <div class="sstep__body lede"><slot /></div>}
-		</Fragment>
-	) : (
-		<Fragment>
-			{hasBody && <div class="sstep__body lede"><slot /></div>}
-			<div class="sstep__media"><slot name="media" /></div>
-		</Fragment>
+	{hasMedia && mediaFirst && <div class="sstep__media"><slot name="media" /></div>}
+
+	{hasBody && (
+		<div class:list={['sstep__body', 'lede', !hasMedia && 'sstep__body--center']}>
+			<slot />
+		</div>
 	)}
+
+	{hasMedia && !mediaFirst && <div class="sstep__media"><slot name="media" /></div>}
 
 	<div class="sstep__foot">
 		{showPrev && <Back label={prevLabel} />}
@@ -73,6 +72,14 @@ const hasBody = Astro.slots.has('default');
 	/* body copy reads left-aligned under the centred title */
 	.sstep__body {
 		text-align: left;
+	}
+	/* no-canvas slide: let the body fill and centre between title and foot */
+	.sstep__body--center {
+		flex: 1 1 auto;
+		min-height: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	}
 	.sstep__foot {
 		display: flex;
