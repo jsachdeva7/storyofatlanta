@@ -22,29 +22,31 @@ import still from '../../assets/early-atlanta/still.png';
 
 	<!-- Free-flow pocket: drag/resize/rotate these with ?edit. -->
 	<Canvas slot="media" fill fitScale class="cluster">
+		<!-- DOM order = back → front: earlyAtlanta1, illustration, still -->
 		<Item
-			left="2.8%"
-			top="3.5%"
-			width="61.7%"
-			rotate={-3.6}
+			left="0.1%"
+			top="1.7%"
+			width="63.8%"
+			rotate={-3.9}
+			phone={{ left: '12.5%', top: '51.1%', width: '67.2%' }}
+		>
+			<Image src={earlyAtlanta1} alt="Early Atlanta" />
+		</Item>
+		<Item
+			left="21.1%"
+			top="53.4%"
+			width="52.1%"
+			rotate={-1.6}
 			phone={{ left: '1.2%', top: '9.7%', width: '64.5%', rotate: -7.6 }}
 		>
 			<Image src={illustration} alt="Early Atlanta illustration" />
 		</Item>
 		<Item
-			left="15.8%"
-			top="49.2%"
-			width="49.6%"
-			phone={{ left: '13.6%', top: '56.6%', width: '67.2%' }}
-		>
-			<Image src={earlyAtlanta1} alt="Early Atlanta" />
-		</Item>
-		<Item
-			left="60.4%"
-			top="5.7%"
+			left="58.6%"
+			top="9.8%"
 			width="35%"
 			rotate={4.4}
-			phone={{ left: '50.9%', top: '6.1%', width: '47.2%', rotate: 4.4 }}
+			phone={{ left: '50.9%', top: '6.1%', width: '42.7%', rotate: 4.4 }}
 		>
 			<Image src={still} alt="Early Atlanta" />
 		</Item>

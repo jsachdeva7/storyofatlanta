@@ -38,7 +38,9 @@ const hasMedia = Astro.slots.has('media');
 		</div>
 	)}
 
-	{hasMedia && !mediaFirst && <div class="sstep__media"><slot name="media" /></div>}
+	{hasMedia && !mediaFirst && (
+		<div class="sstep__media sstep__media--bottom"><slot name="media" /></div>
+	)}
 
 	<div class="sstep__foot">
 		{showPrev && <Back label={prevLabel} />}
@@ -68,6 +70,11 @@ const hasMedia = Astro.slots.has('media');
 		flex: 1 1 auto;
 		min-height: 0;
 		display: grid;
+	}
+	/* when the canvas sits at the very bottom (above the buttons), give it the
+	   same breathing room the text-bottom slides get from .copy padding */
+	.sstep__media--bottom {
+		margin-bottom: 1.5rem;
 	}
 	/* body copy reads left-aligned under the centred title */
 	.sstep__body {
