@@ -19,8 +19,9 @@ interface Props {
 	   scripts/fit-cluster.ts). `true` fits by height; "width" fits by width. */
 	fitScale?: boolean | 'height' | 'width';
 	/* axis override used only on phones (e.g. fit by width on phone,
-	   by height everywhere else) */
-	fitScalePhone?: 'height' | 'width';
+	   by height everywhere else). "off" disables the fit on phones,
+	   leaving the hand-arranged layout untouched. */
+	fitScalePhone?: 'height' | 'width' | 'off';
 	/* only apply the fit on phones (leave larger screens as authored) */
 	fitPhoneOnly?: boolean;
 	class?: string;

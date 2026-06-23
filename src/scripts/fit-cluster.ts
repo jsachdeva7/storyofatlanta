@@ -25,10 +25,11 @@ export function initFitClusters() {
 		const axisAttr = (onPhone && pocket.dataset.fitScalePhone) || pocket.dataset.fitScale;
 		const axis = axisAttr === 'width' ? 'width' : 'height';
 		const phoneOnly = pocket.dataset.fitPhoneOnly !== undefined;
+		const phoneOff = onPhone && pocket.dataset.fitScalePhone === 'off';
 		pocket.style.transformOrigin = '0 0';
-		// Off while editing (you arrange the raw cluster; the live view fits it).
-		// Off on larger screens when this pocket is phone-only.
-		if (editing || (phoneOnly && !onPhone)) {
+		// Off while editing (you arrange the raw cluster; the live view fits it),
+		// off on larger screens when phone-only, and off on phone when "off".
+		if (editing || (phoneOnly && !onPhone) || phoneOff) {
 			pocket.style.transform = '';
 			return;
 		}
