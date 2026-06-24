@@ -1,0 +1,38 @@
+---
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+// import { Image } from 'astro:assets';
+// import Item from '../Item.astro';
+// cut-out imports go here when assets are ready
+---
+
+<StoryStep title="Sounds of Atlanta" mediaFirst>
+	<Canvas slot="media" fill fitScale class="cluster">
+		{/* drop <Item><Image …/></Item> cut-outs here, position with ?edit */}
+	</Canvas>
+
+	<div class="copy">
+		<p>
+			Atlanta always had the roots—the gospel, the churches, the Auburn Avenue
+			clubs. But it was never a music capital. Memphis had Stax; Atlanta had
+			potential.
+		</p>
+		<p>
+			Then, in the 1990s, it stopped waiting its turn. OutKast rewrote what rap
+			could be. LaFace built R&B empires. Trap was born here and became the
+			default language of pop. The women ran it too—from TLC, the best-selling
+			girl group in U.S. history, to today's chart-toppers.
+		</p>
+	</div>
+</StoryStep>
+
+<style>
+	/* breathing room below the body text, before the prev/next bar */
+	.copy {
+		padding-bottom: 1.5rem;
+	}
+	/* more gap between the canvas and the copy on phone */
+	:global(:root[data-bp='phone']) .copy {
+		margin-top: 1rem;
+	}
+</style>

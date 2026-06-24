@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import coretta from '../../assets/city-hall/coretta.png';
+import maynard from '../../assets/city-hall/maynard.png';
+---
+
+<StoryStep title="City Hall" mediaFirst>
+	<!-- Free-flow pocket: drag/resize/rotate these with ?edit. -->
+	<Canvas slot="media" fill fitScale class="cluster">
+		<!-- DOM order = back → front: coretta, maynard (front) -->
+		<Item
+			left="0.3%"
+			top="7.1%"
+			width="88.1%"
+			phone={{ left: '-18.5%', top: '6.3%', width: '139.8%' }}
+		>
+			<Image src={coretta} alt="Coretta Scott King" />
+		</Item>
+		<Item
+			left="63.4%"
+			top="0.3%"
+			width="40.8%"
+			rotate={11.2}
+			phone={{ left: '56.3%', top: '4.1%', width: '53.8%', rotate: 11.2 }}
+		>
+			<Image src={maynard} alt="Maynard Jackson" />
+		</Item>
+	</Canvas>
+
+	<div class="copy">
+		<p>
+			King's tragic assassination in 1968 only fueled the movement. Coretta Scott King became one of its most powerful voices in her own right, while John Lewis and Andrew Young carried the fight from the streets into office.
+		</p>
+		<p>
+			In 1973, Atlanta elected Maynard Jackson as the first Black mayor of a major
+			Southern city.
+		</p>
+	</div>
+</StoryStep>
+
+<style>
+	/* breathing room below the body text, before the prev/next bar */
+	.copy {
+		padding-bottom: 1.5rem;
+	}
+	/* more gap between the canvas and the copy on phone */
+	:global(:root[data-bp='phone']) .copy {
+		margin-top: 1rem;
+	}
+</style>

@@ -11,7 +11,7 @@ html {
 	background-color: #08060e;
 	/* Solid #08060E fill layered over the paper texture */
 	background-image:
-		linear-gradient(rgba(8, 6, 14, 0.95), rgba(8, 6, 14, 0.88)),
+		linear-gradient(rgba(8, 6, 14, 0.95), rgba(8, 6, 14, 0.92)),
 		url('/textures/paper.jpg');
 	background-repeat: no-repeat, no-repeat;
 	background-size: cover, cover;
