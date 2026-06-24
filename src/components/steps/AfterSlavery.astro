@@ -8,17 +8,7 @@ import voters from '../../assets/after-slavery/voters.png';
 import sign from '../../assets/after-slavery/sign.png';
 ---
 
-<StoryStep title="After Slavery">
-	<p>
-		For one brief decade, Black Atlantans voted, held
-		office, and built institutions meant to last. A cluster of Black colleges
-		rose in the city: the schools that became the Atlanta University Center.
-	</p>
-	<p>
-		Then, inequality was restored. Over the next decades, the freedom was walled
-		back up by law: separate, unequal, and enforced by violence.
-	</p>
-
+<StoryStep title="After Slavery" mediaFirst>
 	<!-- Free-flow pocket: drag/resize/rotate these with ?edit. -->
 	<Canvas slot="media" fill fitScale class="cluster">
 		<Item
@@ -49,4 +39,27 @@ import sign from '../../assets/after-slavery/sign.png';
 			<Image src={sign} alt="Segregation sign" />
 		</Item>
 	</Canvas>
+
+	<div class="copy">
+		<p>
+			For one brief decade, Black Atlantans voted, held office, and built
+			institutions meant to last. A cluster of Black colleges rose in the city:
+			the schools that became the Atlanta University Center.
+		</p>
+		<p>
+			Then, inequality was restored. Over the next decades, the freedom was walled
+			back up by law: separate, unequal, and enforced by violence.
+		</p>
+	</div>
 </StoryStep>
+
+<style>
+	/* breathing room below the body text, before the prev/next bar */
+	.copy {
+		padding-bottom: 1.5rem;
+	}
+	/* more gap between the canvas and the copy on phone */
+	:global(:root[data-bp='phone']) .copy {
+		margin-top: 1rem;
+	}
+</style>

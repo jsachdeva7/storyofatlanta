@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import mlkHouse from '../../assets/moral-rebuilding/mlk-house.png';
+import mlkChild from '../../assets/moral-rebuilding/mlk-child.png';
+---
+
+<StoryStep title="A King is Born" mediaFirst>
+	<!-- Free-flow pocket: drag/resize/rotate these with ?edit. -->
+	<Canvas slot="media" fill fitScale class="cluster">
+		<Item
+			left="5.2%"
+			top="0.8%"
+			width="69.3%"
+			rotate={-2}
+			phone={{ left: '0.3%', top: '9.6%', width: '90.8%', rotate: 0.1 }}
+		>
+			<Image src={mlkHouse} alt="MLK's birth home on Auburn Avenue" />
+		</Item>
+		<Item
+			left="59.4%"
+			top="11.4%"
+			width="32.9%"
+			rotate={14.2}
+			phone={{ left: '56.9%', top: '4.4%', width: '41.5%', rotate: 14.2 }}
+		>
+			<Image src={mlkChild} alt="Martin Luther King Jr. as a child" />
+		</Item>
+	</Canvas>
+
+	<div class="copy">
+		<p>
+			Everything Black Atlanta built—the colleges, the churches, the money, the
+			leaders—raised a generation that wouldn't settle for a safe corner of a
+			segregated country.
+		</p>
+		<p>
+			In 1929, the movement's leader was born in a house on Auburn Avenue. He studied at Morehouse, one of the
+			Black colleges founded after slavery. His name was Martin Luther King Jr. 
+		</p>
+	</div>
+</StoryStep>
+
+<style>
+	/* breathing room below the body text, before the prev/next bar */
+	.copy {
+		padding-bottom: 1.5rem;
+	}
+	/* more gap between the canvas and the copy on phone */
+	:global(:root[data-bp='phone']) .copy {
+		margin-top: 1rem;
+	}
+</style>

@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import mlk from '../../assets/movement/mlk.png';
+import womanCarried from '../../assets/movement/womancarried.png';
+import womanWithPoster from '../../assets/movement/womanwithposter.png';
+---
+
+<StoryStep title="The Movement">
+	<p>
+		In 1960, students from Atlanta's Black colleges led sit-ins that broke segregation across the city. From his pulpit here at home, King carried the same fight to the entire nation.
+	</p>
+	<p>
+		The Civil Rights Act of 1964 outlawed segregation. The Voting Rights Act of 1965 restored the ballot that had been stripped away after Reconstruction—the vote, won back by law.
+	</p>
+
+	<!-- Free-flow pocket: drag/resize/rotate these with ?edit.
+	     DOM order = back → front: womanCarried, mlk, womanWithPoster -->
+	<Canvas slot="media" fill fitScale class="cluster">
+		<Item
+			left="57.5%"
+			top="-0.4%"
+			width="40%"
+			rotate={5.7}
+			phone={{ left: '52.1%', top: '3.6%', width: '38%', rotate: 5.7 }}
+		>
+			<Image src={womanCarried} alt="A protester carried away" />
+		</Item>
+		<Item
+			left="16.8%"
+			top="15%"
+			width="78.3%"
+			phone={{ left: '21.6%', top: '19.6%', width: '69.1%' }}
+		>
+			<Image src={mlk} alt="Martin Luther King Jr." />
+		</Item>
+		<Item
+			left="2.5%"
+			top="1.4%"
+			width="23.5%"
+			rotate={-4.6}
+			phone={{ left: '19%', top: '3.7%', width: '22.7%', rotate: -4.6 }}
+		>
+			<Image src={womanWithPoster} alt="A woman with a protest poster" />
+		</Item>
+	</Canvas>
+</StoryStep>

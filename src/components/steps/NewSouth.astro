@@ -8,7 +8,17 @@ import georgiaTech from '../../assets/new-south/georgiatech.png';
 import cokeBottle from '../../assets/new-south/cokebottle.png';
 ---
 
-<StoryStep title="The New South" mediaFirst>
+<StoryStep title="The New South">
+	<p>
+		Atlanta took a phoenix as its symbol and one word as its motto—Resurgens,
+		rising again. It bet everything on a "New South" of factories and commerce.
+	</p>
+	<p>
+		In 1885 it founded a school to build that future—the Georgia School of
+		Technology. A year later, a local pharmacist's headache syrup became
+		Coca-Cola, and Atlanta started selling itself to the world.
+	</p>
+
 	<!-- Free-flow pocket: drag/resize/rotate these with ?edit. -->
 	<Canvas slot="media" fill fitScale class="cluster">
 		<Item
@@ -38,24 +48,4 @@ import cokeBottle from '../../assets/new-south/cokebottle.png';
 			<Image src={cokeBottle} alt="Coca-Cola bottle" />
 		</Item>
 	</Canvas>
-
-	<div class="copy">
-		<p>
-			Atlanta took a phoenix as its symbol and one word as its motto—Resurgens,
-			rising again. It bet everything on a "New South" of factories and
-			commerce.
-		</p>
-		<p>
-			In 1885 it founded a school to build that future—the Georgia School of
-			Technology. A year later, a local pharmacist's headache
-			syrup became Coca-Cola, and Atlanta started selling itself to the world.
-		</p>
-	</div>
 </StoryStep>
-
-<style>
-	/* breathing room below the body text, before the prev/next bar */
-	.copy {
-		padding-bottom: 1.5rem;
-	}
-</style>

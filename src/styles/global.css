@@ -80,16 +80,6 @@ body {
 
 /* Breakpoints are driven by [data-bp] on <html> (set by the inline script
    in Story.astro), so the dev device-preview can override them. */
-/* tablet */
-:root[data-bp='tablet'] .kicker {
-	font-size: 1.2rem;
-}
-:root[data-bp='tablet'] .section-title {
-	font-size: 1.35rem;
-}
-:root[data-bp='tablet'] .lede {
-	font-size: 1.05rem;
-}
 /* phone */
 :root[data-bp='phone'] .kicker {
 	font-size: 18px;
