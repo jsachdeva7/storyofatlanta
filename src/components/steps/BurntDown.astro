@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import atlantaBurnt from '../../assets/burnt-down/atlantaburnt.png';
+---
+
+<StoryStep title="Burnt Down" mediaFirst>
+	<Canvas slot="media" fill fitScale="height" fitScalePhone="width" class="burnt-canvas">
+		<Item left="0%" top="0%" width="100%">
+			<Image src={atlantaBurnt} alt="Atlanta in ruins, 1864" />
+		</Item>
+	</Canvas>
+
+	<div class="copy">
+		<p>
+			By 1864, Atlanta was the railroad and supply hub of the Confederacy. A huge target for the Union, General Sherman took the
+			city, emptied it of its people, and burned everything of use to the war
+			before marching his army to the sea.
+		</p>
+		<p>
+			The fire took most of the city with it—homes, businesses, and the railroads
+			that built it, all in ashes.
+		</p>
+	</div>
+</StoryStep>
+
+<style>
+	/* shrink the canvas and centre it → padding above and below the canvas.
+	   :global because the pocket element belongs to <Canvas>'s style scope;
+	   the unique class keeps it to this slide. */
+	:global(.burnt-canvas) {
+		height: 66%;
+		align-self: center;
+	}
+	/* breathing room below the body text, before the prev/next bar */
+	.copy {
+		padding-bottom: 1.5rem;
+	}
+</style>
