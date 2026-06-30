@@ -9,27 +9,54 @@ import airportSigns from '../../assets/most-connected/airport-signs.png';
 ---
 
 <StoryStep title="Most Connected">
-	<p>
-		Atlanta kept pulling people in—Black Americans moving back South by the
-		millions, and then built the infrastructure to match.
-	</p>
-	<p>
-		In 1980, a local station called CNN started broadcasting news 24 hours a day,
-		and the world started watching Atlanta. Named after Mayor Jackson, Atlanta's airport became the busiest on
-		Earth.
-	</p>
+	<div class="copy">
+		<p>
+			Atlanta kept pulling people in—Black Americans moving back South by the
+			millions, and then built the infrastructure to match.
+		</p>
+		<p>
+			In 1980, a local station called CNN started broadcasting news 24 hours a day,
+			and the world started watching Atlanta. Named after Mayor Jackson, Atlanta's airport became the busiest on
+			Earth.
+		</p>
+	</div>
 
 	<!-- Free-flow pocket: drag/resize/rotate these with ?edit.
 	     DOM order = back → front: airportSigns, plane, cnn -->
 	<Canvas slot="media" fill fitScale class="cluster">
-		<Item left="1%" top="20.2%" width="55%" rotate={6.2}>
+		<Item
+			left="1%"
+			top="20.2%"
+			width="55%"
+			rotate={6.2}
+			phone={{ left: '3.6%', top: '5.9%', width: '89%', rotate: 6.2 }}
+		>
 			<Image src={airportSigns} alt="Airport signage" />
 		</Item>
-		<Item left="1.6%" top="43.6%" width="96.1%" rotate={3.3}>
+		<Item
+			left="1.6%"
+			top="43.6%"
+			width="96.1%"
+			rotate={3.3}
+			phone={{ left: '0.5%', top: '60.8%', width: '96.1%', rotate: 3.3 }}
+		>
 			<Image src={plane} alt="Hartsfield–Jackson Atlanta International Airport" />
 		</Item>
-		<Item left="41.5%" top="8.2%" width="58.1%" rotate={-2.4}>
+		<Item
+			left="41.5%"
+			top="8.2%"
+			width="58.1%"
+			rotate={-2.4}
+			phone={{ left: '6.4%', top: '22.6%', width: '96%', rotate: -2.4 }}
+		>
 			<Image src={cnn} alt="CNN Center" />
 		</Item>
 	</Canvas>
 </StoryStep>
+
+<style>
+	/* bigger gap between the text and the collage below it */
+	.copy {
+		margin-bottom: 1.5rem;
+	}
+</style>

@@ -1,27 +1,51 @@
 ---
+import { Image } from 'astro:assets';
 import StoryStep from '../StoryStep.astro';
 import Canvas from '../Canvas.astro';
-// import { Image } from 'astro:assets';
-// import Item from '../Item.astro';
-// cut-out imports go here when assets are ready
+import Item from '../Item.astro';
+import outkast from '../../assets/sounds-of-atlanta/outkast.png';
+import tlc from '../../assets/sounds-of-atlanta/tlc.png';
+import braxton from '../../assets/sounds-of-atlanta/braxton.png';
 ---
 
 <StoryStep title="Sounds of Atlanta" mediaFirst>
+	<!-- Free-flow pocket: drag/resize/rotate these with ?edit. -->
 	<Canvas slot="media" fill fitScale class="cluster">
-		{/* drop <Item><Image …/></Item> cut-outs here, position with ?edit */}
+		<!-- DOM order = back → front: tlc, braxton, outkast (front) -->
+		<Item
+			left="44.8%"
+			top="-3.7%"
+			width="55.6%"
+			phone={{ left: '37.3%', top: '3.2%', width: '55.3%', rotate: 0 }}
+		>
+			<Image src={tlc} alt="TLC" />
+		</Item>
+		<Item
+			left="1.4%"
+			top="4.6%"
+			width="35.7%"
+			rotate={-3.4}
+			phone={{ left: '15.3%', top: '4.5%', width: '35.7%', rotate: -3.4 }}
+		>
+			<Image src={braxton} alt="Toni Braxton" />
+		</Item>
+		<Item
+			left="13.3%"
+			top="36.9%"
+			width="69.6%"
+			phone={{ left: '16.2%', top: '37%', width: '69.6%', rotate: 0 }}
+		>
+			<Image src={outkast} alt="OutKast" />
+		</Item>
 	</Canvas>
 
 	<div class="copy">
 		<p>
 			Atlanta always had the roots—the gospel, the churches, the Auburn Avenue
-			clubs. But it was never a music capital. Memphis had Stax; Atlanta had
-			potential.
+			clubs. But it was never a music capital.
 		</p>
 		<p>
-			Then, in the 1990s, it stopped waiting its turn. OutKast rewrote what rap
-			could be. LaFace built R&B empires. Trap was born here and became the
-			default language of pop. The women ran it too—from TLC, the best-selling
-			girl group in U.S. history, to today's chart-toppers.
+			Then came the 90s. OutKast rewrote what rap could be. TLC became the best-selling girl group in American history. Toni Braxton turned LaFace Records into an R&B empire.
 		</p>
 	</div>
 </StoryStep>

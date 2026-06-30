@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets';
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import refugees from '../../assets/everyone-came/refugees.png';
+import curry from '../../assets/everyone-came/curry.png';
+import sign from '../../assets/everyone-came/sign.png';
+---
+
+<StoryStep title="Everyone Came" mediaFirst>
+	<!-- Free-flow pocket: drag/resize/rotate these with ?edit.
+	     DOM order = back → front: curry, sign, refugees (front) -->
+	<Canvas slot="media" fill fitScale class="cluster">
+		<Item
+			left="53.7%"
+			top="2.3%"
+			width="46%"
+			phone={{ left: '47.8%', top: '2.8%', width: '46%' }}
+		>
+			<Image src={curry} alt="Buford Highway food" />
+		</Item>
+		<Item
+			left="-0.7%"
+			top="7.9%"
+			width="37.3%"
+			phone={{ left: '7.3%', top: '7.7%', width: '37.3%' }}
+		>
+			<Image src={sign} alt="Buford Highway signage" />
+		</Item>
+		<Item
+			left="21.3%"
+			top="32.5%"
+			width="67.1%"
+			phone={{ left: '21.3%', top: '32.5%', width: '67.1%' }}
+		>
+			<Image src={refugees} alt="Refugees in Clarkston" />
+		</Item>
+	</Canvas>
+
+	<div class="copy">
+		<p>
+			Atlanta became a popular immigrant destination. People came from Mexico,
+			Vietnam, Korea, Ethiopia, India, and dozens of places more.
+		</p>
+		<p>
+			Buford Highway turned into miles of markets and signs in a dozen languages. Clarkston took in so many refugees it's been called the most diverse square
+			mile in America.
+		</p>
+	</div>
+</StoryStep>
+
+<style>
+	/* breathing room below the body text, before the prev/next bar */
+	.copy {
+		padding-bottom: 1.5rem;
+	}
+	/* more gap between the canvas and the copy on phone */
+	:global(:root[data-bp='phone']) .copy {
+		margin-top: 1rem;
+	}
+</style>

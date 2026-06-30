@@ -1,0 +1,52 @@
+---
+import { Image } from 'astro:assets';
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import beltlineMap from '../../assets/still-building/beltline-map.png';
+import beltline from '../../assets/still-building/beltline.png';
+import beltlies from '../../assets/still-building/beltlies.png';
+---
+
+<StoryStep title="Still Building">
+	<p>
+		In the 2000s, Atlanta became one of the busiest film and TV hubs in the
+		world. And the BeltLine—a 22-mile loop of dead railroad remade into parks and
+		trails.
+	</p>
+	<p>
+		The BeltLine, a GT grad student's thesis, was to fully reconnect the city.
+		Decades on, it's a promise only half-kept.
+	</p>
+
+	<!-- Free-flow pocket: drag/resize/rotate these with ?edit.
+	     DOM order = back → front: beltlies, beltline-map, beltline -->
+	<Canvas slot="media" fill fitScale class="cluster">
+		<Item
+			left="9.8%"
+			top="4.5%"
+			width="21.4%"
+			rotate={-9.7}
+			phone={{ left: '6.9%', top: '7.4%', width: '35.2%', rotate: -9.7 }}
+		>
+			<Image src={beltlies} alt="On the BeltLine" />
+		</Item>
+		<Item
+			left="39.9%"
+			top="3.5%"
+			width="56%"
+			rotate={6.5}
+			phone={{ left: '33.1%', top: '4.6%', width: '64.1%', rotate: 6.5 }}
+		>
+			<Image src={beltlineMap} alt="The Atlanta BeltLine map" />
+		</Item>
+		<Item
+			left="5.4%"
+			top="53%"
+			width="52%"
+			phone={{ left: '12.5%', top: '52.6%', width: '69.8%' }}
+		>
+			<Image src={beltline} alt="The Atlanta BeltLine" />
+		</Item>
+	</Canvas>
+</StoryStep>

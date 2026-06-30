@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets';
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import northAve from '../../assets/world-watches/northave.png';
+import medals from '../../assets/world-watches/medals.png';
+import newspaper from '../../assets/world-watches/newspaper.png';
+---
+
+<StoryStep title="The World Watches">
+	<div class="copy">
+		<p>
+			In 1996, Atlanta hosted the Centennial Olympic Games. New venues, a rebuilt
+			downtown, a brand-new park carved into its center. Billions of eyes were on
+			ATL.
+		</p>
+		<p>
+			A bombing in Centennial Park shook the Games, but they went on. For sixteen
+			days, Atlanta was the center of the world.
+		</p>
+	</div>
+
+	<!-- Free-flow pocket: drag/resize/rotate these with ?edit.
+	     DOM order = back → front: newspaper, northave, medals -->
+	<Canvas slot="media" fill fitScale class="cluster">
+		<Item
+			left="0.3%"
+			top="14.6%"
+			width="46%"
+			rotate={-6.2}
+			phone={{ left: '0.2%', top: '39.6%', width: '74.5%', rotate: -4.5 }}
+		>
+			<Image src={newspaper} alt="Olympic newspaper headline" />
+		</Item>
+		<Item
+			left="18.5%"
+			top="42.9%"
+			width="59.7%"
+			rotate={2.2}
+			phone={{ left: '32.7%', top: '67.6%', width: '63.5%', rotate: 2.2 }}
+		>
+			<Image src={northAve} alt="North Avenue during the Olympics" />
+		</Item>
+		<Item
+			left="38.8%"
+			top="6.2%"
+			width="60.3%"
+			rotate={6.1}
+			phone={{ left: '15.6%', top: '5.9%', width: '70.1%', rotate: 2.7 }}
+		>
+			<Image src={medals} alt="Olympic medals" />
+		</Item>
+	</Canvas>
+</StoryStep>
+
+<style>
+	/* more gap between the text and the canvas below it on phone */
+	:global(:root[data-bp='phone']) .copy {
+		margin-bottom: 1rem;
+	}
+</style>
