@@ -1,28 +1,15 @@
 ---
-import Back from './Back.astro';
-import Continue from './Continue.astro';
-
 /* Standard layout for story steps past the hero:
    - title (kicker) at the top
    - an elastic `media` slot (a <Canvas>) that fills the leftover height
    - body text (default slot)
-   - prev / next buttons pinned at the bottom
 
    `mediaFirst` puts the canvas above the body text (else text above canvas). */
 interface Props {
 	title: string;
 	mediaFirst?: boolean;
-	prevLabel?: string;
-	nextLabel?: string;
-	showPrev?: boolean;
 }
-const {
-	title,
-	mediaFirst = false,
-	prevLabel = 'previous',
-	nextLabel = 'continue',
-	showPrev = true,
-} = Astro.props;
+const { title, mediaFirst = false } = Astro.props;
 const hasBody = Astro.slots.has('default');
 const hasMedia = Astro.slots.has('media');
 ---
@@ -41,11 +28,6 @@ const hasMedia = Astro.slots.has('media');
 	{hasMedia && !mediaFirst && (
 		<div class="sstep__media sstep__media--bottom"><slot name="media" /></div>
 	)}
-
-	<div class="sstep__foot">
-		{showPrev && <Back label={prevLabel} />}
-		<Continue label={nextLabel} />
-	</div>
 </section>
 
 <style>
@@ -59,7 +41,6 @@ const hasMedia = Astro.slots.has('media');
 		text-align: center;
 		padding: clamp(1.5rem, 4vh, 3.5rem) 2rem;
 		gap: clamp(0.9rem, 2.5vh, 1.75rem);
-		--foot-gap: 1.6rem;
 	}
 	:global(:root[data-bp='phone']) .sstep {
 		padding-inline: 15px;
@@ -71,8 +52,7 @@ const hasMedia = Astro.slots.has('media');
 		min-height: 0;
 		display: grid;
 	}
-	/* when the canvas sits at the very bottom (above the buttons), give it the
-	   same breathing room the text-bottom slides get from .copy padding */
+	/* a little breathing room below a bottom canvas */
 	.sstep__media--bottom {
 		margin-bottom: 1.5rem;
 	}
@@ -80,21 +60,12 @@ const hasMedia = Astro.slots.has('media');
 	.sstep__body {
 		text-align: left;
 	}
-	/* no-canvas slide: let the body fill and centre between title and foot */
+	/* no-canvas slide: let the body fill and centre vertically */
 	.sstep__body--center {
 		flex: 1 1 auto;
 		min-height: 0;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-	}
-	.sstep__foot {
-		display: flex;
-		justify-content: center;
-		gap: var(--foot-gap);
-	}
-	/* prev + next share the footer width equally */
-	.sstep__foot :global(.cta) {
-		flex: 1 1 0;
 	}
 </style>

@@ -9,6 +9,8 @@
    including iOS overscroll / safe areas (no white flash). */
 html {
 	background-color: #08060e;
+	/* snap each full-height slide into view as you scroll */
+	scroll-snap-type: y mandatory;
 	/* Solid #08060E fill layered over the paper texture */
 	background-image:
 		linear-gradient(rgba(8, 6, 14, 0.95), rgba(8, 6, 14, 0.92)),
@@ -41,12 +43,13 @@ body {
 	box-sizing: border-box;
 }
 
-/* ---- Story steps: one slide visible at a time ---- */
+/* ---- Story steps: stacked, scroll through them (each one window tall) ---- */
 .js-slide {
-	display: none;
+	scroll-snap-align: start;
 }
-.js-slide.is-active {
-	display: block;
+/* empty space between slides → a longer scroll/travel from one to the next */
+.js-slide:not(:last-child) {
+	margin-bottom: 60vh;
 }
 
 /* ---- Shared typography (used across steps) ---- */
