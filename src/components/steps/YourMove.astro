@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import StoryStep from '../StoryStep.astro';
+import Canvas from '../Canvas.astro';
+import Item from '../Item.astro';
+import skyline from '../../assets/your-move/skyline.png';
+---
+
+<StoryStep title="Your Move" mediaFirst>
+	<Canvas slot="media" fill fitScale="height" fitScalePhone="width" class="cluster">
+		<Item left="0.2%" top="8.4%" width="100%">
+			<Image src={skyline} alt="The Atlanta skyline" />
+		</Item>
+	</Canvas>
+
+	<div class="copy">
+		<p>
+			Atlanta has been stolen, built, burned, and rebuilt—over and over. None of
+			it was inevitable. Every version was built by someone who believed the city
+			could be more.
+		</p>
+		<p>
+			It's still unfinished. The next sound hasn't dropped. The next reinvention
+			hasn't been built yet. It's your turn to embrace the Atlanta spirit.
+		</p>
+	</div>
+</StoryStep>
+
+<style>
+	/* breathing room below the body text, before the prev/next bar */
+	.copy {
+		padding-bottom: 1.5rem;
+	}
+	/* more gap between the canvas and the copy on phone */
+	:global(:root[data-bp='phone']) .copy {
+		margin-top: 1rem;
+	}
+</style>
